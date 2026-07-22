@@ -69,7 +69,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 		Output: &logrusWriter{logger: appLogger},
 	}))
 	fiberApp.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:5173", // адрес твоего React-клиента
+		AllowOrigins: "https://scvrrrchnk-msg-client.vercel.app",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		AllowMethods: "GET, POST, HEAD, PUT, DELETE, PATCH",
 	}))
