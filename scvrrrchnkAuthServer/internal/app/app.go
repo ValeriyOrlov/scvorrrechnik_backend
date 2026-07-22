@@ -14,7 +14,6 @@ import (
 	"github.com/ValeriyOrlov/scvrrrchnkAuthServer/internal/repository"
 	"github.com/ValeriyOrlov/scvrrrchnkAuthServer/internal/service"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	recoverware "github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/sirupsen/logrus"
@@ -74,14 +73,18 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	allowedOrigins := os.Getenv("ALLOW_ORIGINS")
 	if allowedOrigins == "" {
-		allowedOrigins = "http://localhost:5173" // fallback для локальной разработки
+		allowedOrigins = "http://localhost:5173"
 	}
 
-	fiberApp.Use(cors.New(cors.Config{
-		AllowOrigins: allowedOrigins,
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
-		AllowMethods: "GET, POST, HEAD, PUT, DELETE, PATCH",
-	}))
+	fiberApp.Use(func(c *fiber.Ctx) error {
+		c.Set("Access-Control-Allow-Origin", allowedOrigins)
+		c.Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization")
+		c.Set("Access-Control-Allow-Methods", "GET, POST, HEAD, PUT, DELETE, PATCH")
+		if c.Method() == "OPTIONS" {
+			return c.SendStatus(204)
+		}
+		return c.Next()
+	})
 	fiberApp.Post("/register", authHandler.Register)
 	fiberApp.Post("/login", authHandler.Login)
 	fiberApp.Post("/refresh", authHandler.Refresh)
