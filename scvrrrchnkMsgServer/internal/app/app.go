@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/ValeriyOrlov/scvrrrchnkMsgServer/internal/config"
@@ -76,8 +77,13 @@ func NewApp(cfg *config.Config) (*App, error) {
 		Output: &logrusWriter{logger: appLogger},
 	}))
 
+	allowedOrigins := os.Getenv("ALLOW_ORIGINS")
+	if allowedOrigins == "" {
+		allowedOrigins = "http://localhost:5173" // fallback для локальной разработки
+	}
+
 	fiberApp.Use(cors.New(cors.Config{
-		AllowOrigins: "https://scvrrrchnk-msg-client.vercel.app",
+		AllowOrigins: allowedOrigins,
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		AllowMethods: "GET, POST, HEAD, PUT, DELETE, PATCH",
 	}))
