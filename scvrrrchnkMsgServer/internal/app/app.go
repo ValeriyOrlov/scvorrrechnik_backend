@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -76,6 +77,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 	fiberApp.Use(logger.New(logger.Config{
 		Output: &logrusWriter{logger: appLogger},
 	}))
+	log.Printf("ALLOW_ORIGINS is set to: %s", os.Getenv("ALLOW_ORIGINS"))
 
 	allowedOrigins := os.Getenv("ALLOW_ORIGINS")
 	if allowedOrigins == "" {
