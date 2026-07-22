@@ -8,11 +8,11 @@ services:
     environment:
       - ALLOW_ORIGINS=https://scvrrrchnk-msg-client.vercel.app
       - APP_PORT=8080
-      - AUTH_DB_HOST=${AUTH_DB_HOST}
+      - DB_HOST=${AUTH_DB_HOST}
       - DB_PORT=5432
-      - AUTH_DB_USER=${AUTH_DB_USER}
-      - AUTH_DB_PASSWORD=${AUTH_DB_PASSWORD}
-      - AUTH_DB_NAME=${AUTH_DB_NAME}
+      - DB_USER=${AUTH_DB_USER}
+      - DB_PASSWORD=${AUTH_DB_PASSWORD}
+      - DB_NAME=${AUTH_DB_NAME}
       - JWT_SECRET=${JWT_SECRET}
       - AUTH_ACCESS_TTL=15m
       - AUTH_REFRESH_TTL=168h
@@ -25,10 +25,10 @@ services:
     environment:
       - ALLOW_ORIGINS=https://scvrrrchnk-msg-client.vercel.app
       - APP_PORT=8081
-      - MESSENGER_DB_HOST=${MESSENGER_DB_HOST}
+      - DB_HOST=${MESSENGER_DB_HOST}
       - DB_PORT=5432
-      - MESSENGER_DB_USER=${MESSENGER_DB_USER}
-      - MESSENGER_DB_PASSWORD=${MESSENGER_DB_PASSWORD}
-      - MESSENGER_DB_NAME=${MESSENGER_DB_NAME}
+      - DB_USER=${MESSENGER_DB_USER}
+      - DB_PASSWORD=${MESSENGER_DB_PASSWORD}
+      - DB_NAME=${MESSENGER_DB_NAME}
       - JWT_SECRET=${JWT_SECRET}
     restart: unless-stopped
